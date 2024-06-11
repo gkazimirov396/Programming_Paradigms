@@ -4,6 +4,7 @@
 #include "text_utils.h"
 
 TextEditor::TextEditor() : head(nullptr) {
+    clipboard[0] = '\0';
 }
 
 TextEditor::~TextEditor() {
@@ -22,6 +23,15 @@ Line::~Line() {
 
 const char* Line::getText() const {
     return this->text;
+}
+
+void TextEditor::deleteLines(Line* lines) {
+    while (lines) {
+        Line* next = lines->next;
+        delete[] lines->text;
+        delete lines;
+        lines = next;
+    }
 }
 
 void TextEditor::appendText(const char* text) {
@@ -78,9 +88,14 @@ void TextEditor::saveToFile(const char* filename) const {
 }
 
 void TextEditor::loadFromFile(const char* filename) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+
     std::ifstream inFile(filename);
+
     if (inFile.is_open()) {
-        clearText();
+        deleteLines(head);
+        head = nullptr;
         std::string line;
         while (getline(inFile, line)) {
             removeNewline(&line[0]);
@@ -146,13 +161,9 @@ void TextEditor::searchText(const char* query) const {
 }
 
 void TextEditor::clearText() {
-    Line* current = head;
-    while (current) {
-        Line* next = current->next;
-        delete[] current->text;
-        delete current;
-        current = next;
-    }
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+    deleteLines(head);
     head = nullptr;
 }
 
@@ -183,6 +194,8 @@ void TextEditor::deleteText(int lineNumber, int charIndex, int numChars) {
     if (charIndex + numChars > (int) strlen(current->text)) {
         numChars = strlen(current->text) - charIndex;
     }
+    strncpy(clipboard, current->text + charIndex, numChars);
+    clipboard[numChars] = '\0';
     size_t newLength = strlen(current->text) - numChars + 1;
     char* newText = new char[newLength];
     strncpy(newText, current->text, charIndex);
@@ -232,4 +245,36 @@ void TextEditor::redo() {
     else {
         std::cerr << "No more states to redo\n";
     }
+}
+
+void TextEditor::cutText(int lineNumber, int charIndex, int numChars) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+    deleteText(lineNumber, charIndex, numChars);
+}
+
+void TextEditor::copyText(int lineNumber, int charIndex, int numChars) {
+    Line* current = head;
+    for (int i = 0; i < lineNumber; ++i) {
+        if (!current) {
+            std::cerr << "Invalid line number\n";
+            return;
+        }
+        current = current->next;
+    }
+    if (charIndex < 0 || charIndex >= (int)strlen(current->text)) {
+        std::cerr << "Invalid character index\n";
+        return;
+    }
+    if (charIndex + numChars > (int) strlen(current->text)) {
+        numChars = strlen(current->text) - charIndex;
+    }
+    strncpy(clipboard, current->text + charIndex, numChars);
+    clipboard[numChars] = '\0';
+}
+
+void TextEditor::pasteText(int lineNumber, int charIndex) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+    insertText(lineNumber, charIndex, clipboard);
 }

@@ -31,6 +31,9 @@ public:
     void clearText();
     void undo();
     void redo();
+    void cutText(int lineNumber, int charIndex, int numChars);
+    void copyText(int lineNumber, int charIndex, int numChars);
+    void pasteText(int lineNumber, int charIndex);
 
 private:
     struct Line {
@@ -38,6 +41,7 @@ private:
         Line* next;
     };
     Line* head;
+    char clipboard[1024];
 
     std::stack<Line*> undoStack;
     std::stack<Line*> redoStack;
@@ -45,4 +49,5 @@ private:
     void removeNewline(char* str) const;
     void saveState(std::stack<Line*>& stack);
     void restoreState(std::stack<Line*>& stack);
+    void deleteLines(Line* lines);
 };
