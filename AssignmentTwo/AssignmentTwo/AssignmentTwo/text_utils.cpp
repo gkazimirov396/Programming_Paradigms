@@ -161,12 +161,15 @@ void TextEditor::insertTextWithReplacement(int lineNumber, int charIndex, const 
         std::cerr << "Invalid character index\n";
         return;
     }
-    size_t newLength = charIndex + strlen(text) + strlen(current->text + charIndex) + 1;
+    size_t textLen = strlen(text);
+    size_t currentTextLen = strlen(current->text);
+    size_t remainingTextLen = currentTextLen - charIndex;
+    size_t newLength = charIndex + textLen + remainingTextLen + 1;
     char* newText = new char[newLength];
     strncpy(newText, current->text, charIndex);
     newText[charIndex] = '\0';
     strcat(newText, text);
-    strcat(newText, current->text + charIndex + strlen(text));
+    strcat(newText, current->text + charIndex);
     delete[] current->text;
     current->text = newText;
 }
