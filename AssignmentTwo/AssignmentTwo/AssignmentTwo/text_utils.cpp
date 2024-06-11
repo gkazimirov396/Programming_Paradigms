@@ -25,6 +25,9 @@ const char* Line::getText() const {
 }
 
 void TextEditor::appendText(const char* text) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+
     if (!head) {
         head = new Line{ strdup(text), nullptr };
     }
@@ -43,6 +46,9 @@ void TextEditor::appendText(const char* text) {
 }
 
 void TextEditor::startNewLine() {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+
     if (!head) {
         head = new Line{ strdup(""), nullptr };
     }
@@ -98,7 +104,11 @@ void TextEditor::printCurrentText() const {
 }
 
 void TextEditor::insertText(int lineNumber, int charIndex, const char* text) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+
     Line* current = head;
+
     for (int i = 0; i < lineNumber; ++i) {
         if (!current) {
             std::cerr << "Invalid line number\n";
@@ -106,6 +116,7 @@ void TextEditor::insertText(int lineNumber, int charIndex, const char* text) {
         }
         current = current->next;
     }
+
     if (charIndex < 0 || charIndex >(int) strlen(current->text)) {
         std::cerr << "Invalid character index\n";
         return;
@@ -149,5 +160,76 @@ void TextEditor::removeNewline(char* str) const {
     size_t len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
         str[len - 1] = '\0';
+    }
+}
+
+void TextEditor::deleteText(int lineNumber, int charIndex, int numChars) {
+    saveState(undoStack);
+    while (!redoStack.empty()) redoStack.pop();
+
+    Line* current = head;
+
+    for (int i = 0; i < lineNumber; ++i) {
+        if (!current) {
+            std::cerr << "Invalid line number\n";
+            return;
+        }
+        current = current->next;
+    }
+    if (charIndex < 0 || charIndex >= (int)strlen(current->text)) {
+        std::cerr << "Invalid character index\n";
+        return;
+    }
+    if (charIndex + numChars > (int) strlen(current->text)) {
+        numChars = strlen(current->text) - charIndex;
+    }
+    size_t newLength = strlen(current->text) - numChars + 1;
+    char* newText = new char[newLength];
+    strncpy(newText, current->text, charIndex);
+    newText[charIndex] = '\0';
+    strcat(newText, current->text + charIndex + numChars);
+    delete[] current->text;
+    current->text = newText;
+}
+
+void TextEditor::saveState(std::stack<Line*>& stack) {
+    Line* newState = nullptr;
+    Line* current = head;
+    Line** newCurrent = &newState;
+    while (current) {
+        *newCurrent = new Line{ strdup(current->text), nullptr };
+        current = current->next;
+        newCurrent = &((*newCurrent)->next);
+    }
+    stack.push(newState);
+}
+
+void TextEditor::restoreState(std::stack<Line*>& stack) {
+    if (stack.empty()) {
+        std::cerr << "No more states to restore\n";
+        return;
+    }
+    clearText();
+    head = stack.top();
+    stack.pop();
+}
+
+void TextEditor::undo() {
+    if (!undoStack.empty()) {
+        saveState(redoStack);
+        restoreState(undoStack);
+    }
+    else {
+        std::cerr << "No more states to undo\n";
+    }
+}
+
+void TextEditor::redo() {
+    if (!redoStack.empty()) {
+        saveState(undoStack);
+        restoreState(redoStack);
+    }
+    else {
+        std::cerr << "No more states to redo\n";
     }
 }

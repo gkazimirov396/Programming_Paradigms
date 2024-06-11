@@ -1,4 +1,5 @@
 #pragma once
+#include <stack>
 
 class Line {
 public:
@@ -26,7 +27,10 @@ public:
     void printCurrentText() const;
     void insertText(int lineNumber, int charIndex, const char* text);
     void searchText(const char* query) const;
+    void deleteText(int lineNumber, int charIndex, int numChars);
     void clearText();
+    void undo();
+    void redo();
 
 private:
     struct Line {
@@ -35,5 +39,10 @@ private:
     };
     Line* head;
 
+    std::stack<Line*> undoStack;
+    std::stack<Line*> redoStack;
+
     void removeNewline(char* str) const;
+    void saveState(std::stack<Line*>& stack);
+    void restoreState(std::stack<Line*>& stack);
 };
