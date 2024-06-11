@@ -29,5 +29,11 @@ public:
     void clearText();
 
 private:
+    struct Line {
+        char* text;
+        Line* next;
+    };
     Line* head;
+
+    void removeNewline(char* str) const;
 };
