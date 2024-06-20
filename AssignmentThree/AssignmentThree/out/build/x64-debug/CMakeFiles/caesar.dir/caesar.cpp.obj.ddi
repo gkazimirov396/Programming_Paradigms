@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\caesar.dir\\caesar.cpp.obj",
+            "outputs": [
+                "C:\\Users\\User\\source\\repos\\paradigms\\homework\\AssignmentThree\\AssignmentThree\\out\\build\\x64-debug\\vc140.pdb",
+                "CMakeFiles\\caesar.dir\\caesar.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

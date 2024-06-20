@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\AssignmentThree.dir\\main.cpp.obj",
+            "outputs": [
+                "C:\\Users\\User\\source\\repos\\paradigms\\homework\\AssignmentThree\\AssignmentThree\\out\\build\\x64-debug\\vc140.pdb",
+                "CMakeFiles\\AssignmentThree.dir\\main.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

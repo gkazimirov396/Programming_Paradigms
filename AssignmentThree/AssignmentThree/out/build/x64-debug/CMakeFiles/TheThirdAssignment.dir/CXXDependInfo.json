@@ -1,0 +1,18 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "MSVC",
+	"compiler-id" : "MSVC",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "C:/Users/User/source/repos/paradigms/homework/AssignmentThree/AssignmentThree/out/build/x64-debug",
+	"dir-cur-src" : "C:/Users/User/source/repos/paradigms/homework/AssignmentThree/AssignmentThree",
+	"dir-top-bld" : "C:/Users/User/source/repos/paradigms/homework/AssignmentThree/AssignmentThree/out/build/x64-debug",
+	"dir-top-src" : "C:/Users/User/source/repos/paradigms/homework/AssignmentThree/AssignmentThree",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : [],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/User/source/repos/paradigms/homework/AssignmentThree/AssignmentThree/out/build/x64-debug/CMakeFiles/TheThirdAssignment.dir"
+}
