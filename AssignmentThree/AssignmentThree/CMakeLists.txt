@@ -9,4 +9,6 @@ else()
     add_library(caesar SHARED caesar.cpp)
 endif()
 
+add_executable("AssignmentThree" main.cpp)
+
 target_link_libraries("AssignmentThree" PRIVATE caesar)
