@@ -4,7 +4,7 @@
 #include <cctype>
 
 extern "C" {
-    __declspec(dllexport) char* encrypt(char* rawText, int key) {
+    EXPORT char* encrypt(char* rawText, int key) {
         int len = strlen(rawText);
         char* encryptedText = new char[len + 1];
 
@@ -21,7 +21,7 @@ extern "C" {
         return encryptedText;
     }
 
-    __declspec(dllexport) char* decrypt(char* encryptedText, int key) {
+    EXPORT char* decrypt(char* encryptedText, int key) {
         int len = strlen(encryptedText);
         char* decryptedText = new char[len + 1];
 

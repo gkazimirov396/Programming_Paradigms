@@ -25,17 +25,24 @@ int main() {
         return 1;
     }
 
-    char rawText[] = "Roses are red, violets are blue";
+    char userInput[2400];
+    std::cout << "Enter text to encrypt: ";
+    std::cin.getline(userInput, 2400);
+
     int key = 1;
 
-    char* encryptedText = encrypt(rawText, key);
-    std::cout << "Encrypted: " << encryptedText << std::endl;
+    std::cout << "Original Text: " << userInput << std::endl;
+
+    char* encryptedText = encrypt(userInput, key);
+    std::cout << "Encrypted Text: " << encryptedText << std::endl;
 
     char* decryptedText = decrypt(encryptedText, key);
-    std::cout << "Decrypted: " << decryptedText << std::endl;
+    std::cout << "Decrypted Text: " << decryptedText << std::endl;
 
     delete[] encryptedText;
     delete[] decryptedText;
+    delete[] userInput;
+
     FreeLibrary(handle);
 
     return 0;
