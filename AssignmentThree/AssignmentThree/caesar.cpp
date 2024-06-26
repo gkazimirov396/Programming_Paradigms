@@ -5,6 +5,7 @@
 
 extern "C" {
     EXPORT char* encrypt(char* rawText, int key) {
+        key = key % 26;
         int len = strlen(rawText);
         char* encryptedText = new char[len + 1];
 
@@ -22,6 +23,7 @@ extern "C" {
     }
 
     EXPORT char* decrypt(char* encryptedText, int key) {
+        key = key % 26;
         int len = strlen(encryptedText);
         char* decryptedText = new char[len + 1];
 

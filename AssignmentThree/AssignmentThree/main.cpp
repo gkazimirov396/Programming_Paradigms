@@ -29,7 +29,7 @@ int main() {
     std::cout << "Enter text to encrypt: ";
     std::cin.getline(userInput, 2400);
 
-    int key = 1;
+    int key = 100;
 
     std::cout << "Original Text: " << userInput << std::endl;
 
