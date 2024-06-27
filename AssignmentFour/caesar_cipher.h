@@ -6,10 +6,11 @@
 class CaesarCipher {
 private:
     HINSTANCE hLib;
-    typedef void (*EncryptDecryptFunc)(char*, int, int);
-    EncryptDecryptFunc encryptFunc;
-    EncryptDecryptFunc decryptFunc;
+    typedef char* (*EncryptFunc)(char*, int);
+    typedef char* (*DecryptFunc)(char*, int);
 
+    EncryptFunc encryptFunc;
+    DecryptFunc decryptFunc;
 public:
     CaesarCipher();
     ~CaesarCipher();

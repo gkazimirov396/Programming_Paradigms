@@ -3,7 +3,7 @@
 #include <cctype>
 
 extern "C" {
-    char* encrypt(char* rawText, int key) {
+    __declspec(dllexport) char* encrypt(char* rawText, int key) {
         key = key % 26;
         int len = strlen(rawText);
         char* encryptedText = new char[len + 1];
@@ -21,7 +21,7 @@ extern "C" {
         return encryptedText;
     }
 
-    char* decrypt(char* encryptedText, int key) {
+    __declspec(dllexport) char* decrypt(char* encryptedText, int key) {
         key = key % 26;
         int len = strlen(encryptedText);
         char* decryptedText = new char[len + 1];
