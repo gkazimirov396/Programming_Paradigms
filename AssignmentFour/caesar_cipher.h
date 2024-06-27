@@ -3,6 +3,8 @@
 
 #include <windows.h>
 
+class Text;
+
 class CaesarCipher {
 private:
     HINSTANCE hLib;
@@ -15,8 +17,8 @@ public:
     CaesarCipher();
     ~CaesarCipher();
 
-    void encrypt(char* data, int length, int key);
-    void decrypt(char* data, int length, int key);
+    void encrypt(Text& text, int key);
+    void decrypt(Text& text, int key);
 };
 
 #endif // CAESAR_CIPHER_H

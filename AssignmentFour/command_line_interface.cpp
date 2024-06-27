@@ -46,12 +46,15 @@ void CommandLineInterface::processFile(CaesarCipher& cipher, const char* inputFi
 
     while (inputFile.read(buffer, chunkSize) || inputFile.gcount() > 0) {
         size_t bytesRead = inputFile.gcount();
+        Text text(buffer, bytesRead);
+
         if (encrypt) {
-            cipher.encrypt(buffer, bytesRead, key);
+            cipher.encrypt(text, key);
         }
         else {
-            cipher.decrypt(buffer, bytesRead, key);
+            cipher.decrypt(text, key);
         }
-        outputFile.write(buffer, bytesRead);
+
+        outputFile.write(text.getContent(), text.getLength());
     }
 }

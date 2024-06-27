@@ -1,4 +1,5 @@
 #include "caesar_cipher.h"
+#include "text.h"
 #include <iostream>
 #include <cstring>
 
@@ -23,10 +24,10 @@ CaesarCipher::~CaesarCipher() {
     }
 }
 
-void CaesarCipher::encrypt(char* data, int length, int key) {
-    char* encryptedText = encryptFunc(data, key);
+void CaesarCipher::encrypt(Text& text, int key) {
+    char* encryptedText = encryptFunc(const_cast<char*>(text.getContent()), key);
     if (encryptedText) {
-        std::strcpy(data, encryptedText);
+        text.setContent(encryptedText, std::strlen(encryptedText));
         delete[] encryptedText;
     }
     else {
@@ -34,10 +35,10 @@ void CaesarCipher::encrypt(char* data, int length, int key) {
     }
 }
 
-void CaesarCipher::decrypt(char* data, int length, int key) {
-    char* decryptedText = decryptFunc(data, key);
+void CaesarCipher::decrypt(Text& text, int key) {
+    char* decryptedText = decryptFunc(const_cast<char*>(text.getContent()), key);
     if (decryptedText) {
-        std::strcpy(data, decryptedText);
+        text.setContent(decryptedText, std::strlen(decryptedText));
         delete[] decryptedText;
     }
     else {
