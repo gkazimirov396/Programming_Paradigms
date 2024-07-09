@@ -1,19 +1,24 @@
 #include "caesar_cipher.h"
 #include "text.h"
 #include <iostream>
+#include <stdexcept>
 #include <cstring>
 
 CaesarCipher::CaesarCipher() {
-    hLib = LoadLibrary(TEXT("caesar.dll"));
-    if (!hLib) {
-        std::cerr << "Could not load the DLL" << std::endl;
-        exit(EXIT_FAILURE);
+    try {
+        hLib = LoadLibrary(TEXT("caesar.dll"));
+        if (!hLib) {
+            throw std::runtime_error("Could not load the DLL");
+        }
+        encryptFunc = (EncryptFunc)GetProcAddress(hLib, "encrypt");
+        decryptFunc = (DecryptFunc)GetProcAddress(hLib, "decrypt");
+        if (!encryptFunc || !decryptFunc) {
+            FreeLibrary(hLib);
+            throw std::runtime_error("Could not locate the functions");
+        }
     }
-    encryptFunc = (EncryptFunc)GetProcAddress(hLib, "encrypt");
-    decryptFunc = (DecryptFunc)GetProcAddress(hLib, "decrypt");
-    if (!encryptFunc || !decryptFunc) {
-        std::cerr << "Could not locate the functions" << std::endl;
-        FreeLibrary(hLib);
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
         exit(EXIT_FAILURE);
     }
 }

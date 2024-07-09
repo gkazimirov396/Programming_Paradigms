@@ -7,9 +7,7 @@
 class CommandLineInterface {
 public:
     void run();
-
-private:
-    void processFile(CaesarCipher& cipher, const char* inputFilePath, const char* outputFilePath, int key, bool encrypt);
+    void printMenu();
 };
 
 #endif // COMMAND_LINE_INTERFACE_H
