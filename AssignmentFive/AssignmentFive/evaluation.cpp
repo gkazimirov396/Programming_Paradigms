@@ -28,11 +28,6 @@ public:
         }
     }
 
-    static double ChooseOperationabs(const string& operation, double operand) {
-        if (operation == "abs") return abs(operand);
-        return 0;
-    }
-
     static double CalculateResult(queue<string>& tokens) {
         stack<double> stack;
 
@@ -47,7 +42,7 @@ public:
                 double operand = stack.top();
                 stack.pop();
 
-                stack.push(ChooseOperationabs(token, operand));
+                stack.push(abs(operand));
             }
             else {
                 double operand2 = stack.top();
