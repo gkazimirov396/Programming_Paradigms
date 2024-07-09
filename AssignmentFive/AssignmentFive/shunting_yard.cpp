@@ -53,6 +53,9 @@ public:
                     notationStack.pop();
                 }
             }
+            else if (token == "min" || token == "max" || token == "pow" || token == "abs") {
+                notationStack.push(token);
+            }
             else {
                 while (!notationStack.empty() && Precedence(token) <= Precedence(notationStack.top())) {
                     queueOutput.push(notationStack.top());

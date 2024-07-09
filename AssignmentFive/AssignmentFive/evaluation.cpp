@@ -2,6 +2,7 @@
 #include <queue>
 #include <stack>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -17,9 +18,19 @@ public:
             return operand1 * operand2;
         case '/':
             return operand1 / operand2;
+        case 'm':
+            if (operation == "min") return min(operand1, operand2);
+            if (operation == "max") return max(operand1, operand2);
+        case 'p':
+            return pow(operand1, operand2);
         default:
             return 0;
         }
+    }
+
+    static double ChooseOperationabs(const string& operation, double operand) {
+        if (operation == "abs") return abs(operand);
+        return 0;
     }
 
     static double CalculateResult(queue<string>& tokens) {
@@ -31,6 +42,12 @@ public:
 
             if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
                 stack.push(stod(token));
+            }
+            else if (token == "abs") {
+                double operand = stack.top();
+                stack.pop();
+
+                stack.push(ChooseOperationabs(token, operand));
             }
             else {
                 double operand2 = stack.top();

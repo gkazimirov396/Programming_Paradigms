@@ -22,15 +22,12 @@ public:
             else if (element == '(' || element == ')' || element == ',') {
                 if (!buffer.empty()) {
                     string number;
-
                     while (!buffer.empty()) {
                         number = buffer.top() + number;
                         buffer.pop();
                     }
-
                     queueTokens.push(number);
                 }
-
                 queueTokens.push(string(1, element));
             }
             else if (operators.find(element) != string::npos) {
@@ -40,17 +37,21 @@ public:
                 else {
                     if (!buffer.empty()) {
                         string number;
-
                         while (!buffer.empty()) {
                             number = buffer.top() + number;
                             buffer.pop();
                         }
-
                         queueTokens.push(number);
                     }
-
                     queueTokens.push(string(1, element));
                 }
+            }
+            else if (numExpression.substr(i, 3) == "min" ||
+                numExpression.substr(i, 3) == "max" ||
+                numExpression.substr(i, 3) == "pow" ||
+                numExpression.substr(i, 3) == "abs") {
+                queueTokens.push(numExpression.substr(i, 3));
+                i += 2;
             }
         }
 
