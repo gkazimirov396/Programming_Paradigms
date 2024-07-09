@@ -11,9 +11,6 @@ using namespace std;
 int main() {
     string input;
 
-    cout << "Enter an expression: \n";
-    cout << "> ";
-
     while (true) {
         getline(cin, input);
 
