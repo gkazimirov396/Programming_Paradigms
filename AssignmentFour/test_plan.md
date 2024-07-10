@@ -102,4 +102,4 @@ cl main.obj caesar_cipher.obj text.obj command_line_interface.obj text_editor.ob
 del *.exp, *.dll, *.lib, *.obj, *.exe, decrypt.txt, encrypt.txt, text.txt
 ```
 
-![image](https://github.com/gkazimirov396/Programming_Paradigms/assets/109133755/c505317c-4843-453e-9336-874342c49bdc)
+![image](https://github.com/gkazimirov396/Programming_Paradigms/assets/109133755/c540a6cd-0033-43ef-8ee6-76386966ae96)
