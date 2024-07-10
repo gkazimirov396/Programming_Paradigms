@@ -22,9 +22,7 @@ int main() {
             queue<string> output = ShuntingYard::TransformToRPN(tokens);
 
             double result = Evaluation::CalculateResult(output);
-            cout << result;
-
-            break;
+            cout << result << endl;
         }
     }
 
